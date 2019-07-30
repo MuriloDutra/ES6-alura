@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>Salário</th>
+            </tr>
+        </thead>
+
+        <tbody id="bodyTable">
+
+            <!-- ELE ESTÁ COM DIFICULDADES AQUI -->
+        <tbody>
+    </table>
+
+    <script>
+        let funcionarios = [
+            {
+                "nome": "Douglas",
+                "endereco" : "Rua da esquina, 123",
+                "salario" : "4500"
+            },
+            {
+                "nome": "Felipe",
+                "endereco" : "Rua da virada, 456",
+                "salario" : "5000"
+            },
+            {
+                "nome": "Silvio",
+                "endereco" : "Rua da aresta, 789",
+                "salario" : "6000"
+            }
+        ];
+
+        let bodyTable = document.getElementById("bodyTable");
+
+        
+        let funcionariosHTML = funcionarios.map((funcionario) => {
+            return `
+            <tr>
+                <td>${funcionario.nome}</td>
+                <td>${funcionario.endereco}</td>
+                <td>${funcionario.salario}</td>
+            </tr>   
+            `
+        });
+
+        let dataTable = funcionariosHTML.join(" ");
+
+        bodyTable.innerHTML = dataTable;
+    </script>
+</body>
+</html>
