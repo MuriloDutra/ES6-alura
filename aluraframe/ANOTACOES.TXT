@@ -53,6 +53,10 @@
     Se a ARROW FUNCTION tiver apenas uma linha, nãoé necessário por "{ }" e 
     também não é necessário colocar o comando de "return".
 
+    Outra vantagem das ARROWS FUNCTIONS é que o contexto delas, ou seja, o 'this' é léxico. 
+    Isso significa que o contexto em que ela foi chamada, será mantido até o final de sua execução.
+    Com o método tradicional, usando a palavra 'function' o 'this' é dinâmico, ele muda atráves do arquivo/classe em que estiver sendo executado.
+
 
 -   Para herdar uma classe externa para a sua, é muito simples. Basta adicionar a palavra "extends" e o nome da classe.
     E caso o construtor precise receber algum parâmetro, este valor deve ser passado para o construtor da classe "pai",
