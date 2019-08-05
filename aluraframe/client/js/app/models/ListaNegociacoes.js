@@ -1,16 +1,17 @@
 class ListaNegociacoes{
     
                           //armadilha é a nova função que será executada em um novo contexto, um novo 'this'
-    constructor(contexto, armadilha){
+    constructor(armadilha){
         this._negociacoes = [];
         this._armadilha = armadilha;
-        this._contexto = contexto;
     }
 
     adiciona(negociaco){
         this._negociacoes.push(negociaco);
-        //this._armadilha(this);                      //Este THIS é a própria classe ListaNegociacoes
-        Reflect.apply(this._armadilha, this._contexto,[this]);
+
+        this._armadilha(this);
+        /*  Este 'this' de '_armadilha' NÃO é da classe atual, ListaNegociacoes, mas sim da classe 'NegociacaoController'.
+            Pois no momento da chamada, a função que será executada está no contexto de 'NegociacoController'*/
     }
 
     get negociacoes(){
@@ -19,7 +20,6 @@ class ListaNegociacoes{
 
     esvazia(){
         this._negociacoes = [];
-        //this._armadilha(this);                      //Este THIS é a própria classe ListaNegociacoes
-        Reflect.apply(this._armadilha, this._contexto,[this]);
+        this._armadilha(this);
     }
 }
