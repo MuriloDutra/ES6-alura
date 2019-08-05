@@ -8,7 +8,7 @@ class NegociacaoController{
         this._inputValor = $('#valor');
 
         //Negociações
-        this._listaNegociacoes = new ListaNegociacoes(this, function(model){
+        this._listaNegociacoes = new ListaNegociacoes(this, function(model){ //Este método atualiza a lista de negociações sempre que uma nova negociação for adicionada.
             this._negociacoesView.update(model);
         });
 

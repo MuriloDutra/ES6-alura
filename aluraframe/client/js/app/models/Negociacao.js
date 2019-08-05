@@ -5,7 +5,7 @@ class Negociacao{
         this._quantidade = quantidade;
         this._valor = valor;
 
-        Object.freeze(this);
+        Object.freeze(this); //congelando objeto para que ele não possa ser modificado
     }
 
     get volume(){

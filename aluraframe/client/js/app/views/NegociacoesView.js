@@ -1,8 +1,10 @@
 class NegociacoesView extends View{
 
-    //Construtor omitido
-    /*O javascript já considera que o elemento passado por construtor, 
-    deve ser redirecionado para a classe "pai", por isso esta classe não possui construtor*/
+    /*  -- Construtor omitido
+        O javascript já considera que o elemento passado por construtor, 
+        deve ser redirecionado para a classe "pai", por isso esta classe não possui construtor.
+        A classe pai no caso é 'View'
+    */
 
     template(model){
         return `

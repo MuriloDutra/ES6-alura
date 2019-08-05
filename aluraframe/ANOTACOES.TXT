@@ -147,7 +147,7 @@
     Como 'querySelector' é um método de 'document', caso apenas coloque o
     comando na variável '$', 'querySelector' perdera o seu this.
 
-    Antes era document e agora passa a ser '$', então ocorrerá um erro.
+    Antes era 'document' e agora passa a ser '$', então ocorrerá um erro.
     Para evitar isso, usa-se a função bind() para ligar 'querySelector' a
     'document'. Assim mantendo o seu this padrão.
 
@@ -265,7 +265,7 @@
     No caso acima, está sendo criado um novo array, que está vazio e será
     retornado. Este vetor que será retornado, está sendo concatenado com
     o vetor "negociacoes", portanto o resultado final será igual ao vetor
-    "negociacoes".
+    "this._negociacoes".
 
 
 -   A função join() serve para juntar os elementos de um array e 

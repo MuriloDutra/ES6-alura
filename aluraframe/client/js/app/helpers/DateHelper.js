@@ -11,7 +11,7 @@ class DateHelper{
 
         return new Date(...texto.split('-').map((item, indice) => {
             if(indice == 1)
-                return item - 1;
+                return item - 1; //caso esteja verificando a posição do MÊS, um é decrementado.
 
                 return item;
             }));

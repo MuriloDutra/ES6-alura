@@ -1,5 +1,6 @@
 class ListaNegociacoes{
     
+                          //armadilha é a nova função que será executada em um novo contexto, um novo 'this'
     constructor(contexto, armadilha){
         this._negociacoes = [];
         this._armadilha = armadilha;
@@ -13,7 +14,7 @@ class ListaNegociacoes{
     }
 
     get negociacoes(){
-        return [].concat(this._negociacoes);
+        return [].concat(this._negociacoes); //concatenando os dois vetores
     }
 
     esvazia(){
