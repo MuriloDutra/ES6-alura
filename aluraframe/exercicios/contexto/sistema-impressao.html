@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        class SistemaImpressao {
+
+            constructor() {
+                this._codigo = 2;
+            }
+
+            imprime(nomes) {
+
+                nomes.forEach(nome => { //usando arrow function, todos os 'this' abaixo, tem o mesmo valor que ganharam quando foram criados.
+                    console.log(this);
+                    console.log(`${this._codigo}: ${nome}`);
+                });
+            }
+        }
+
+        let nomes = ['Peter Parker', 'Tony Stark', 'Steve Rogers'];
+        let si = new SistemaImpressao();
+        si.imprime(nomes);
+
+        /*
+            Se usarmos arrow function, o this usado no forEach usará o this do contexto no qual foi declarado.
+        */
+
+    </script>
+</body>
+</html>

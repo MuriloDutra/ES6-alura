@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        class Relogio {
+            constructor() {
+                this._segundos = 0;
+
+                //Usando arrow function pois o 'this._segundos' precisa estar relacionado ao 'contexto/this' da classe 'Relogio'.
+                setInterval(() => console.log(++this._segundos), 1000);
+            }
+        }
+
+        var relogio = new Relogio();
+
+        /* 
+            CASO ESTIVESSE USANDO 'FUNCTION'
+            
+            O principal erro deste código está na função passada para setInterval, aonde fazemos o ++this._segundos.
+            Como setInterval é global e acessível em qualquer canto do nosso código, ele pertence ao objeto global window,
+            logo seu this aponta para window e não para nossa classe Relogio. Como window não possui a propriedade _segundos,
+            o incremento resultará em NaN, pois não podemos incrementar uma variável que é undefined.
+
+                --//--
+
+            USANDO 'ARROW FUNCTION'
+
+            Aprendemos a usar arrow functions nesse capítulo, que além de nos fornecer uma sintaxe bastante enxuta, ainda possui escopo léxico,
+            isto é, seu this é estático e não muda. Assim, ao alterar o valor de this._segundos, estamos ainda no contexto de Relogio e o valor é acrescido corretamente.
+            E deste modo o código ficou ainda mais sucinto!
+        */
+    </script>
+</body>
+</html>
