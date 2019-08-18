@@ -13,7 +13,7 @@ class NegociacaoController{
             Mas ela será executada na classe ListaNegociacoes, porém usando o contexto de NegoaciacoController.
             Ela só conseguirá usar o contexto de 'NegociacaoController' dentro de 'ListaNegociacoes' 
             pois o contexto de uma arrow function é léxico. Ele se mantém, não muda, 
-            não é dinâmico que nem se você usar a palavra chave 'function' na declaração de uma função*/
+            não é dinâmico que nem se usar a palavra chave 'function' na declaração de uma função*/
             this._negociacoesView.update(model)
         );
 

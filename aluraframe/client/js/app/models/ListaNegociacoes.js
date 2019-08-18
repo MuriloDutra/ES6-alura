@@ -10,8 +10,10 @@ class ListaNegociacoes{
         this._negociacoes.push(negociaco);
 
         this._armadilha(this);
-        /*  Este 'this' de '_armadilha' NÃO é da classe atual, ListaNegociacoes, mas sim da classe 'NegociacaoController'.
-            Pois no momento da chamada, a função que será executada está no contexto de 'NegociacoController'*/
+        /*  Este 'this' de '_armadilha' NÃO é da classe atual, ListaNegociacoes, mas sim a classe 'NegociacaoController'.
+            Pois no momento da chamada, a função que será executada está no contexto de 'NegociacoController', pois foi usado ARROWS FUNCTIONS.
+            E o 'this' que está como parâmetro, esse sim é a classe 'ListaNegociacoes'
+        */
     }
 
     get negociacoes(){
