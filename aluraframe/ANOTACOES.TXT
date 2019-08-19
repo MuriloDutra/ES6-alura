@@ -1,5 +1,7 @@
     -------------------- SINTAXE --------------------
 
+
+
 -   Existe uma segunda maneira de declarar váriaveis. Invés de usarmos a palavra
     'var', podemos usar 'let'. Com esse tipo de declaração, a váriavel só estará
     disponível no bloco em que foi declarada.
@@ -94,7 +96,12 @@
 
     No exemplo acima, o parâmetro 'nome' está sendo redirecionado para a classe 'pai', que no exemplo é Funcionario, usando o comando 'super()'.
     E o parâmetro 'funcionario', está sendo usado na própria classe 'filha', que no caso é Secretaria.
+    
+    
+    
     -------------------- CONCEITOS --------------------
+
+
 
 -   Quando for criar um atributo de uma classe, é necessário colocar 
     a palavra 'this' antes, para que cada instância tenha seu próprio atributo.
@@ -185,7 +192,63 @@
     acessá-lo.
 
 
+-   Um proxy é uma cópia de um objeto, mas não necessariamente o objeto em si. Ou seja, o Proxy é mentiroso.
+    Ele tem todas as caracteríscas do objeto original, mas ele não é aquele objeto.
+    Usando o linguajar mais popular, um Proxy é uma "cópia barata" de um objeto, ele é muito parecido, mas não é verdadeiro.
+
+    E qual a vantagem de se usar Proxys? Suponha que uma aplicação tenha vários Modelos, que podem ser reutilizados,
+    mas com o passar do temmpo, novas funcionalidades são criadas e os Modelos da aplicação começam a se tornar muito específicos,
+    assim matando a possibilidade de serem reutilizados.
+
+    Então caso use um Proxy, que é uma "cópia barata" de um modelo/objeto, é possível implementar as caracteríscas mais específicas
+    neste Proxy e deixando de alterar o modelo/objeto original, assim o modelo se mantem mais simples, podendo ser reutilizado.
+
+    Para criar um Proxy, é simples.
+    EXEMPLO:
+        let negociacao = new Proxy(new Negociacao(new Date, 1, 100), {});
+
+    O primeiro parâmetro é o objeto que o Proxy irá copiar, se tornando a "cópia barata".
+    Já o segundo parâmetro, é o handler, basicamente é um objeto javascript, que conterá as caracteríscas mais específicas,
+    algumas funções ou métodos diferenciados. 
+
+    
+    Um exemplo de handler/armadilha, é uma armadilha que é executada ANTES da leitura de algum dado.
+    EXEMPLO:
+        let negociacao = new Proxy(new Negociacao(new Date, 1, 100),{
+
+            get: function(target, prop, receiver){
+                console.log(`A propriedade "${prop}" foi interceptada`);
+                return Reflect.get(target, prop, receiver);
+            }
+        });
+
+    Target é uma referência ao objeto original que está sendo encapsulado, no caso é 'Negociacao'.
+    Prop é a propriedade que está sendo acessada.
+    Receiver é uma referência ao próprio Proxy.
+    Reflect.get é usado para fazer a operação de leitura.
+
+
+    Agora irei mostrar outro exemplo, só que ao contrário de pegarmos um valor, vamos SETTAR um valor novo,
+    acessando a propriedade diretamente, o que não é recomendável, pois a propriedade é privada, mas para fins
+    didáticos iremos acessar ela diretamente.
+    EXEMPLO:
+        let negociacao = new Proxy(new Negociacao(new Date, 1, 100), {
+
+            set: function(target, prop, value, receiver){
+                console.log(`Valor antigo: ${target[prop]} | Novo valor: ${value}`);
+                return Reflect.set(target, prop, value, receiver);
+            }  
+        });
+
+    Repare que mudamos o modo da função, antes era 'GET' e agora como queremos inserir um valor, mudou para 'SET'.
+    E mais um parâmetro foi adicionado, o 'value', este parâmetro representa o novo valor que será inserido.
+    E também o método chamado a partir de 'Reflect' mudou de 'get' para 'set'.
+
+
+
     -------------------- FUNÇÕES/MÉTODOS --------------------
+
+
 
 -   Para congelar um Objeto e deixá-lo inalterável, mesmo chamando diretamente
     seus atributos. Basta chama a função Object.freeze() e passar o objeto como
@@ -339,7 +402,11 @@
     OUTRO EXEMPLO:
         Reflect.apply(this._soma, this._contexto,[1,2,3]);
 
+
+
 -------------------- BOAS PRÁTICAS --------------------
+
+
 
 -   Uma boa prática a ser adotada é: quando você for usar um método que será
     executado várias vezes, declare as variáveis imutávei fora do método, ou seja, 
