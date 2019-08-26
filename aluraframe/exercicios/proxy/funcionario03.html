@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body></body>
+    <script>
+        class Funcionario{
+            constructor(email) {
+                this._email = email;
+            }
+
+            get email() {
+                return this._email;
+            }
+
+            set email(email) {
+                this._email = email;
+            }
+        }
+
+
+        let funcionarioProxy =  new Proxy(new Funcionario('mariana@gmail.com'), {
+            set (target, prop, value, receiver){
+                console.log(prop);
+                console.log(`Valor antigo: ${target[prop]} | Valor novo: ${value}`);
+                return Reflect.get(target, prop, value, receiver); // Outra alternativa target[prop] = value;
+            }
+        })
+
+        funcionarioProxy.email = 'bruna@gmail.com';
+    </script>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body></body>
+    <script>
+        /*  Praticando o uso de Arguments!
+            Por mais que nossa função não receba parâmetros, podemos ter acesso aos parâmetros passados com arguments.
+            É uma variável implícita que nos dá acesso a todos os parâmetros passados para a função ou método. 
+            
+            A variável arguments é uma variável implícita que pode ser acessada em métodos ou funções.
+            Ele se comporta como um array onde cada posição equivale ao parâmetro que foi passado para o método ou função.
+            Existe desde o ES5!
+        */
+
+        function exibeNomeCompleto() {
+            alert(`${arguments[0]} ${arguments[1]}`);
+        }
+
+        exibeNomeCompleto('Flávio', 'Almeida');
+    </script>
+</html>

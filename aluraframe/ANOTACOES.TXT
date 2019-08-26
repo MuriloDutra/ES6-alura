@@ -195,9 +195,16 @@
 -   Um proxy é uma cópia de um objeto, mas não necessariamente o objeto em si. Ou seja, o Proxy é mentiroso.
     Ele tem todas as caracteríscas do objeto original, mas ele não é aquele objeto.
     Usando o linguajar mais popular, um Proxy é uma "cópia barata" de um objeto, ele é muito parecido, mas não é verdadeiro.
+    
+    O padrão de projeto Proxy nada mais é do que um objeto "falso", "mentiroso", que envolve e encapsula o objeto real
+    que queremos interagir. É como se fosse uma interface, entre o objeto real e o resto do código. Conseguimos assim controlar
+    o acesso aos seus atributos e métodos. Nele também podemos pendurar códigos que não cabem de estar alocados nos nossos modelos,
+    mas que necessitam ser executados no caso de uma alteração ou atualização do mesmo.
+
+    Armadilhas serão disparadas mesmo se tentarmos modificar uma propriedade congelada de um objeto, ainda que ele não seja modificado.
 
     E qual a vantagem de se usar Proxys? Suponha que uma aplicação tenha vários Modelos, que podem ser reutilizados,
-    mas com o passar do temmpo, novas funcionalidades são criadas e os Modelos da aplicação começam a se tornar muito específicos,
+    mas com o passar do tempo, novas funcionalidades são criadas e os Modelos da aplicação começam a se tornar muito específicos,
     assim matando a possibilidade de serem reutilizados.
 
     Então caso use um Proxy, que é uma "cópia barata" de um modelo/objeto, é possível implementar as caracteríscas mais específicas
@@ -211,7 +218,6 @@
     Já o segundo parâmetro, é o handler, basicamente é um objeto javascript, que conterá as caracteríscas mais específicas,
     algumas funções ou métodos diferenciados. 
 
-    
     Um exemplo de handler/armadilha, é uma armadilha que é executada ANTES da leitura de algum dado.
     EXEMPLO:
         let negociacao = new Proxy(new Negociacao(new Date, 1, 100),{
@@ -222,13 +228,14 @@
             }
         });
 
-    Target é uma referência ao objeto original que está sendo encapsulado, no caso é 'Negociacao'.
-    Prop é a propriedade que está sendo acessada.
-    Receiver é uma referência ao próprio Proxy.
-    Reflect.get é usado para fazer a operação de leitura.
+    O target é o objeto real que é encapsulado pela proxy. É este objeto que não queremos "sujar" com armadilhas ou qualquer código
+    que não diga respeito ao modelo.
+    O prop é a propriedade em si, que está sendo lida naquele momento.
+    O receiver é a referência ao próprio proxy. É na configuração do handler do Proxy que colocamos armadilhas.
+    Reflect.get é usado para fazer a operação de leitura, é ela que efetivamente realiza a operação no objeto real. 
 
 
-    Agora irei mostrar outro exemplo, só que ao contrário de pegarmos um valor, vamos SETTAR um valor novo,
+    Agora irei mostrar outro exemplo, só que ao invés de pegarmos um valor, vamos SETTAR um valor novo,
     acessando a propriedade diretamente, o que não é recomendável, pois a propriedade é privada, mas para fins
     didáticos iremos acessar ela diretamente.
     EXEMPLO:
@@ -244,6 +251,31 @@
     E mais um parâmetro foi adicionado, o 'value', este parâmetro representa o novo valor que será inserido.
     E também o método chamado a partir de 'Reflect' mudou de 'get' para 'set'.
 
+    OBS: tanto o método 'SET' e 'GET' de um Proxy, só serão executados quando a alteração for feita diretamente em uma propriedade.
+
+    OUTRO EXEMPLO DE UMA ARMADILHA SENDO FEITA EM UM PROXY:
+        let lista = new Proxy(new ListaNegociacoes(), {
+            get (target, prop, receiver){
+                if(['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) == typeof(Function)){
+                    return function(){ 
+                        console.log(`Interceptando ${prop}`);
+                        Reflect.apply(target[prop], target, arguments);
+                    }
+                }
+                return Reflect.get(target, prop, receiver);
+            }
+        });
+
+    Dentro de 'get' estou fazendo um IF para saber se a propriedade que estou acessando é uma função.
+    Caso seja, dentro do IF estou retornando uma função, que será substituída no lugar da função que está em 'target[prop]'.    
+    Esta função será substituída no Proxy, ou seja, irá pegar o lugar de 'adiciona' ou 'esvazia'.
+    E neste caso está sendo usado 'function' pois seu 'this' é dinâmico.
+    
+    Arguments é um vetor com todos os parâmetros que a função original recebe.
+    Veja que no código do nosso proxy, como estamos substituindo os métodos 'adiciona()/esvazia()' por outra função e não sabemos
+    se ela recebe ou não um parâmetro, usamos arguments na função substituta para chamarmos Reflect.apply, garantindo
+    assim que a nova função, quando executada, receba corretamente seus parâmetros logo após executarmos o código que
+    desejarmos (armadilha).
 
 
     -------------------- FUNÇÕES/MÉTODOS --------------------
@@ -333,6 +365,10 @@
     retornado. Este vetor que será retornado, está sendo concatenado com
     o vetor "negociacoes", portanto o resultado final será igual ao vetor
     "this._negociacoes".
+
+    O método concat() também possui um segundo parâmetro opcional,
+    que é um valor que deseja atribuir ao novo vetor que está sendo criado,
+    é possível passar quantos parâmetros queira.
 
 
 -   A função join() serve para juntar os elementos de um array e 

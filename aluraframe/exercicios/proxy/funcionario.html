@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body></body>
+    <script>
+
+        let funcionario =  new Proxy({email: 'murilo@gmail.com'}, {
+            get (target, prop, receiver){
+                console.log('Armadilha aqui');
+                return `** ${Reflect.get(target, prop, receiver)} **`;
+            }
+        })
+
+        console.log(funcionario.email);
+    </script>
+</html>
