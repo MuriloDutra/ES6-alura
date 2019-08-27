@@ -260,6 +260,12 @@
         Reflect.apply(this._soma, this._contexto,[1,2,3]);
 
 
+-   Para transformar a resposta de um servidor em um objeto JSON, utilize a função 'parse' do objeto JSON.
+    EXEMPLO:
+        JSON.parse(xhr.responseText);
+
+    O parâmetro que deve ser passado, é o conteúdo que deseja transformar em objeto JSON.
+
 
 -------------------- BOAS PRÁTICAS --------------------
 
