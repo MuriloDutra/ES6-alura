@@ -1,0 +1,192 @@
+-   Quando for criar um atributo de uma classe, é necessário colocar 
+    a palavra 'this' antes, para que cada instância tenha seu próprio atributo.
+
+    EXEMPLO:
+        constructor(){
+            this._data = new Date();
+            this._quantidade = 1;
+            this._valor = 0;
+        }
+
+
+-   Por convenção, quando se quer especificar que um atributo deve ser protegido,
+    ou seja, só pode ser manipulado dentro de sua própria classe, coloca-se um
+    '_' antes do nome do atributo.
+
+    EXEMPLO:
+            this._data = new Date();
+            this._quantidade = 1;
+            this._valor = 0;
+
+
+-   Para criar um método totalmente para leitura, ou seja, o método apenas
+    retorna o valor de um atributo, é necessário colocar a palavra 'get'.
+
+    EXEMPLO:
+        get valor(){
+            return this._valor;
+        }
+
+
+-   Clonagem de um objeto Date().
+
+    EXEMPLO:
+        get data(){
+            return new Date(this._data.getTime());
+        }
+
+    Estou criando um novo objeto Date baseado no meu this._data já existente.
+    
+    Portanto, quando o valor for retornando, será um objeto Date baseado 
+    no meu atributo data, não o atributo em si. É um clone, meu objeto original
+    está protegido, pois uma cópia foi retornada.
+
+
+-   É possível criar atalhos para comando recorrentes no Javascript.
+    Por exemplo o comando 'document.querySelector'. Para criar o atalho, basta
+    declarar uma variável e fazer a variável receber o comando.
+
+    EXEMPLO:
+        let $ = document.querySelector.bind(document);
+        let inputData = $('#data');
+
+    Como 'querySelector' é um método de 'document', caso apenas coloque o
+    comando na variável '$', 'querySelector' perdera o seu this.
+
+    Antes era 'document' e agora passa a ser '$', então ocorrerá um erro.
+    Para evitar isso, usa-se a função bind() para ligar 'querySelector' a
+    'document'. Assim mantendo o seu this padrão.
+
+
+-   Caso uma classe que você possua, não tenha um constructor() definido,
+    internamente, é a mesma coisa de ter um constructor(), mas ele vazio.
+    Ou seja,
+
+    EXEMPLO:
+        Não declarar um constructor, é a mesma coisa de fazer isso
+
+        constructor(){}
+
+
+-   Caso você declare um método/function como "static", você não precisa instanciar
+    o Objeto ao qual esse método pertence.
+
+    EXEMPLO:
+        Eu possuo o objeto "Pessoa", que dentro de si, contém a função
+        getIdade() que NÃO É "static", para eu ter acesso a esse método,
+        precisaria fazer:
+
+            let pessoa = new Pessoa();
+            console.log(pessoa.getIdade());
+
+        MAS se o método É "static", basta fazer:
+        
+            console.log(Pessoa.getIdade());
+
+    Portanto, qunado o método é "static", não preciso instanciar um objeto para
+    acessá-lo.
+
+
+-   Um proxy é uma cópia de um objeto, mas não necessariamente o objeto em si. Ou seja, o Proxy é mentiroso.
+    Ele tem todas as caracteríscas do objeto original, mas ele não é aquele objeto.
+    Usando o linguajar mais popular, um Proxy é uma "cópia barata" de um objeto, ele é muito parecido, mas não é verdadeiro.
+    
+    O padrão de projeto Proxy nada mais é do que um objeto "falso", "mentiroso", que envolve e encapsula o objeto real
+    que queremos interagir. É como se fosse uma interface, entre o objeto real e o resto do código. Conseguimos assim controlar
+    o acesso aos seus atributos e métodos. Nele também podemos pendurar códigos que não cabem de estar alocados nos nossos modelos,
+    mas que necessitam ser executados no caso de uma alteração ou atualização do mesmo.
+
+    Armadilhas serão disparadas mesmo se tentarmos modificar uma propriedade congelada de um objeto, ainda que ele não seja modificado.
+
+    E qual a vantagem de se usar Proxys? Suponha que uma aplicação tenha vários Modelos, que podem ser reutilizados,
+    mas com o passar do tempo, novas funcionalidades são criadas e os Modelos da aplicação começam a se tornar muito específicos,
+    assim matando a possibilidade de serem reutilizados.
+
+    Então caso use um Proxy, que é uma "cópia barata" de um modelo/objeto, é possível implementar as caracteríscas mais específicas
+    neste Proxy e deixando de alterar o modelo/objeto original, assim o modelo se mantem mais simples, podendo ser reutilizado.
+
+    Para criar um Proxy, é simples.
+    EXEMPLO:
+        let negociacao = new Proxy(new Negociacao(new Date, 1, 100), {});
+
+    O primeiro parâmetro é o objeto que o Proxy irá copiar, se tornando a "cópia barata".
+    Já o segundo parâmetro, é o handler, basicamente é um objeto javascript, que conterá as caracteríscas mais específicas,
+    algumas funções ou métodos diferenciados. 
+
+    Um exemplo de handler/armadilha, é uma armadilha que é executada ANTES da leitura de algum dado.
+    EXEMPLO:
+        let negociacao = new Proxy(new Negociacao(new Date, 1, 100),{
+
+            get: function(target, prop, receiver){
+                console.log(`A propriedade "${prop}" foi interceptada`);
+                return Reflect.get(target, prop, receiver);
+            }
+        });
+
+    O target é o objeto real que é encapsulado pela proxy. É este objeto que não queremos "sujar" com armadilhas ou qualquer código
+    que não diga respeito ao modelo.
+    O prop é a propriedade em si, que está sendo lida naquele momento.
+    O receiver é a referência ao próprio proxy. É na configuração do handler do Proxy que colocamos armadilhas.
+    Reflect.get é usado para fazer a operação de leitura, é ela que efetivamente realiza a operação no objeto real. 
+
+
+    Agora irei mostrar outro exemplo, só que ao invés de pegarmos um valor, vamos SETTAR um valor novo,
+    acessando a propriedade diretamente, o que não é recomendável, pois a propriedade é privada, mas para fins
+    didáticos iremos acessar ela diretamente.
+    EXEMPLO:
+        let negociacao = new Proxy(new Negociacao(new Date, 1, 100), {
+
+            set: function(target, prop, value, receiver){
+                console.log(`Valor antigo: ${target[prop]} | Novo valor: ${value}`);
+                return Reflect.set(target, prop, value, receiver);
+            }  
+        });
+
+    Repare que mudamos o modo da função, antes era 'GET' e agora como queremos inserir um valor, mudou para 'SET'.
+    E mais um parâmetro foi adicionado, o 'value', este parâmetro representa o novo valor que será inserido.
+    E também o método chamado a partir de 'Reflect' mudou de 'get' para 'set'.
+
+    OBS: tanto o método 'SET' e 'GET' de um Proxy, só serão executados quando a alteração for feita diretamente em uma propriedade.
+
+    OUTRO EXEMPLO DE UMA ARMADILHA SENDO FEITA EM UM PROXY:
+        let lista = new Proxy(new ListaNegociacoes(), {
+            get (target, prop, receiver){
+                if(['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) == typeof(Function)){
+                    return function(){ 
+                        console.log(`Interceptando ${prop}`);
+                        Reflect.apply(target[prop], target, arguments);
+                    }
+                }
+                return Reflect.get(target, prop, receiver);
+            }
+        });
+
+    Dentro de 'get' estou fazendo um IF para saber se a propriedade que estou acessando é uma função.
+    Caso seja, dentro do IF estou retornando uma função, que será substituída no lugar da função que está em 'target[prop]'.    
+    Esta função será substituída no Proxy, ou seja, irá pegar o lugar de 'adiciona' ou 'esvazia'.
+    E neste caso está sendo usado 'function' pois seu 'this' é dinâmico.
+    
+    Arguments é um vetor com todos os parâmetros que a função original recebe.
+    Veja que no código do nosso proxy, como estamos substituindo os métodos 'adiciona()/esvazia()' por outra função e não sabemos
+    se ela recebe ou não um parâmetro, usamos arguments na função substituta para chamarmos Reflect.apply, garantindo
+    assim que a nova função, quando executada, receba corretamente seus parâmetros logo após executarmos o código que
+    desejarmos (armadilha).
+
+
+
+
+
+    ===================== Padrão de projeto FACTORY =====================
+
+    Ele é utilizado quando precisamos facilitar a criação de um objeto.
+    É ideal quando queremos criar objetos similares, com apenas seus detalhes diferentes, que podemos passar nos argumentos da Factory.
+    
+    É bom para abstrair a criação de um objeto complexo, já que o progrmador que utilizar a Factory não precisa necessariamente 
+    saber como é feita esta operação.
+    
+    O padrão de projeto Factory é um dos padrões mais utilizados no desenvolvimento. Ele é mais um da categoria dos patterns responsáveis
+    por criar objetos, como o Builder e o Prototype.
+
+    O padrão de projeto Factory ocorre quando temos uma classe que nos ajuda a criar um objeto complexo, ou seja, ela esconde de nós os 
+    detalhes de criação desse objeto. É por isso que uma classe Factory possui apenas um método. Faz sentido, porque se tivéssemos que chamar
+    mais de um para criar um objeto a responsabilidade de sua criação cairia em nosso colo.

@@ -1,0 +1,5 @@
+    let abc = String.fromCharCode(65, 66, 67, 68 );
+    console.log(abc); //resultado: ABCD
+    
+    let array = Array.from('murilo');
+    console.log(array); //resultado: ["m", "u", "r", "i", "l", "o"]
