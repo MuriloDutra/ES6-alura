@@ -14,6 +14,7 @@ class NegociacaoController{
         this._mensagem = new Bind(new Mensagem(), new MensagemView($("#mensagemView")), 'texto');
     }
 
+    
     adiciona(event){
         event.preventDefault();
         let negociacao = this._criaNegociaco();
@@ -23,24 +24,30 @@ class NegociacaoController{
         this._limpaFormulario();
     }
 
+
     apaga(){
         this._listaNegociacoes.esvazia();
         this._mensagem.texto = "Lista de negociações apagadas com sucesso.";
     }
 
+
     importaNegociacoes(){
         let service = new NegociacaoService();
 
-        service.obterNegociacoesDaSemana((erro, negociacoes) => {
-            if(erro){
-                this._mensagem.texto = erro;
-                return;
-            }
-
-            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-            this._mensagem.texto = 'Negociações importadas com sucesso!';
-        });
+        Promise.all([
+            service.obterNegociacoesDaSemana(), 
+            service.obterNegociacoesDaSemanaAnterior(), 
+            service.obterNegociacoesDaSemanaRetrasada()
+        ])
+        .then(negociacoes => {
+            negociacoes
+                .reduce((novoArray, arrayNegociacoes) => novoArray.concat(arrayNegociacoes), []) //inicializando o 'novoArray' recebendo '[]'
+                .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+                this._mensagem.texto = 'Negociações importadas com sucesso!';
+        })
+        .catch(erro => this._mensagem.texto = erro);
     }
+
 
     _criaNegociaco(){
         
@@ -52,6 +59,7 @@ class NegociacaoController{
             this._inputValor.value
         );
     }
+
 
     _limpaFormulario(){
         this._inputData.value = "";

@@ -233,6 +233,12 @@
     resultando em 250. Outro detalhe do segundo parâmetro, que é o valor
     de inicialização, se o valor passado for 0.0, não é necessário passá-lo então.
     Por default a função considera como ZERO o valor de inicialização.
+
+    Segue abaixo outro exemplo usando o reduce.
+    EXEMPLO:
+        let arrayPrincipal = [['laranja', 'maçã'], ['vermelho', 'verde'], ['sapato', 'blusa']]; 
+
+        arrayPrincipal.reduce((novoArray, arraySimples) => novoArray.concat(arraySimples), []);
     
 
 -   Em javascript podemos nos deparar com problemas bem específicos, por exemplo,
@@ -266,6 +272,46 @@
 
     O parâmetro que deve ser passado, é o conteúdo que deseja transformar em objeto JSON.
 
+
+-   Para criar uma 'Promise', siga o exemplo.
+    EXEMPLO:
+        var teste = true;
+
+        let novaPromise = new Promise((resolve, reject) => {    
+            if(teste)
+                resolve("Deu certo, pois 'teste' é true, portanto retorne esta mensagem.");
+            else
+                reject("Deu errado, pois 'teste' é false, portanto retorne esta mensagem como erro.")
+        });
+
+        return novaPromise;
+
+    Primeiro é necessário instanciar com a classe 'Promise', em seu constructor é preciso passar uma função que recebe dois parâmetros.
+    Ambos parâmetros são funções, a função 'resolve()' deve ser chamada quando o fluxo de dados der certo e esses dados devem ser passados para ela.
+    E quando o fluxo der algum erro, tal erro deve ser passado para 'reject()'.
+
+    Caso eu desejasse usar essa promisse que criei, seri desta forma.
+    EXEMPLO:
+        novaPromise
+        .then(resposta => console.log(resposta)) //aqui seria mostrado a mensagem passada para 'resolve()'
+        .catch(erro => console.log(erro));       //aqui seria mostrado a mensagem de ERRO passada para 'reject()'
+
+
+-   Na classe 'Promise' existe o método 'all()', que serve para executar várias promises em uma determinada ordem.
+    EXEMPLO:
+        romise.all([
+            service.promise01(), 
+            service.promise02(), 
+            service.promise03()
+        ])
+        .then(negociacoes => console.log(negociacoes))
+        .catch(erro => this._mensagem.texto = erro);
+
+    As promises devem ser passadas como parâmetro dentro de um vetor, a ordem de execução das 'promises' começa a partir da primeira posição do vetor.
+    Ou seja, a promise que está na posição 0 do vetor será a primeira a ser executada e assim por diante.
+
+    A vantagem de usar o 'Promise.all()' é que as respostas de todas as promises serão retornadas no mesmo 'then()', assim como algum erro,
+    qualquer erro que aconteça nas promises será retornado no mesmo 'catch'.
 
 -------------------- BOAS PRÁTICAS --------------------
 
