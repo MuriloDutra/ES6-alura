@@ -23,44 +23,24 @@ class NegociacaoController{
         this._limpaFormulario();
     }
 
-
-
     apaga(){
         this._listaNegociacoes.esvazia();
         this._mensagem.texto = "Lista de negociações apagadas com sucesso.";
     }
 
-
     importaNegociacoes(){
-        let xhr = new XMLHttpRequest();
+        let service = new NegociacaoService();
 
-        xhr.open('GET', 'negociacoes/semana'); //A URL está assim pois o servidor é local
+        service.obterNegociacoesDaSemana((erro, negociacoes) => {
+            if(erro){
+                this._mensagem.texto = erro;
+                return;
+            }
 
-        xhr.onreadystatechange = () => { // toda vez que o estado de 'xhr' mudar, esta função será executada
-            /**Estado de uma requisição AJAX
-             * 
-             * 0: requisição ainda não iniciada
-             * 1: conexão com o servidor estabelecidas
-             * 2: requisição recebida
-             * 3: processando requisição
-             * 4: requisição concluída e a resposta esta pronta */
-
-             if(xhr.readyState == 4){
-                 if(xhr.status == 200){ //Quando a resposta for OK          
-                    JSON.parse(xhr.responseText)
-                    .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)) //O map retorna um novo vetor com objeto Negociacao criados
-                    .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao)); //Logo após adiciono cada Negociacao do novo vetor, usando o adiciona()
-                    this._mensagem.texto = 'Negociações importas com sucesso.';
-                 }else{
-                    console.log(xhr.responseText);
-                    this._mensagem.texto = 'Não foi possível recuperar as Negociações.';
-                 } 
-             }
-        };
-
-        xhr.send();
+            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+            this._mensagem.texto = 'Negociações importadas com sucesso!';
+        });
     }
-
 
     _criaNegociaco(){
         
@@ -72,7 +52,6 @@ class NegociacaoController{
             this._inputValor.value
         );
     }
-
 
     _limpaFormulario(){
         this._inputData.value = "";
