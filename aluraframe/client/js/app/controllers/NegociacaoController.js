@@ -35,8 +35,8 @@ class NegociacaoController{
         let service = new NegociacaoService();
 
         Promise.all([
-            service.obterNegociacoesDaSemana(), 
-            service.obterNegociacoesDaSemanaAnterior(), 
+            service.obterNegociacoesDaSemana(),
+            service.obterNegociacoesDaSemanaAnterior(),
             service.obterNegociacoesDaSemanaRetrasada()
         ])
         .then(negociacoes => {

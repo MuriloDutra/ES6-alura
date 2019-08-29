@@ -236,9 +236,24 @@
 
     Segue abaixo outro exemplo usando o reduce.
     EXEMPLO:
-        let arrayPrincipal = [['laranja', 'maçã'], ['vermelho', 'verde'], ['sapato', 'blusa']]; 
+        let arrayPrincipal = [
+            ['laranja', 'maçã'],
+            ['vermelho', 'verde'],
+            ['sapato', 'blusa']
+        ]; 
 
         arrayPrincipal.reduce((novoArray, arraySimples) => novoArray.concat(arraySimples), []);
+
+    'arrayPrincipal' possui dentro de si, outros três arrays, desajamos tornar esses três arrays em apenas um.
+    Para isso, usamos a função 'reduce()' que recebe uma função como parâmetro. 
+    
+    Esta função recebe dois parâmetros, o primeiro é 'novoArray' que será obviamente o novo vetor, feito a partir dos outros três que 
+    estão dentro de 'arrayPrincipal'. O segundo é uma posição de 'arrayPrincipal', no caso a primeira, que contém o primeiro array.
+
+    Dentro desta função, estou usando o método concat() para concatenar o valor atual do 'arrayPrincipal' que é 'arraySimples', 
+    e estou concatenando com 'novoArray', que será retornado. 
+
+    OBS: o segundo parâmetro da função 'reduce()' é o valor inicial que o 'novoArray' terá, no caso é '[]', mesma coisa que nada.
     
 
 -   Em javascript podemos nos deparar com problemas bem específicos, por exemplo,
