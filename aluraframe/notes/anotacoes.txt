@@ -342,6 +342,13 @@
     Portanto para deixar um vetor com os valores na ordem DECRESCENTE, é preciso primeiro deixar ele ordenado na ordem CRESCENTE e depois usar o
     método 'reverse()' para deixá-lo na ordem DECRESCENTE.
 
+    Com o método 'sort()', para ter certeza que ele irá ordenar de maneira correta, pode-se passar uma função anônima como parâmetro.
+    EXEMPLO;
+        let lista = [10,1, 5, 9, 8, 12, 15];
+        lista.sort((a, b) => a - b); // resultao: [1, 5, 8, 9, 10, 12, 15]
+
+    Repare que o resultado dessa conta é sempre 0 se forem iguais, -1 se 'A' é menor e 1 se 'B' é menor. Exatamente o que precisamos.
+
     Agora será mostrado um exemplo de ordenação de vetor que dentro de si, tem objetos.
     EXEMPLO:
         let negociacoes = [
