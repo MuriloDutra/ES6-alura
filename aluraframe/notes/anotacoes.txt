@@ -328,6 +328,36 @@
     A vantagem de usar o 'Promise.all()' é que as respostas de todas as promises serão retornadas no mesmo 'then()', assim como algum erro,
     qualquer erro que aconteça nas promises será retornado no mesmo 'catch'.
 
+
+-   Todo array em javascript possui métodos para ordenação, dois deles são 'sort()' e 'reverse()'.
+    EXEMPLO:
+        let lista = [5,3,4,2,1];
+        lista.sort();
+        console.log(lista); //resultado: [1, 2, 3, 4, 5]
+
+        lista.reverse();
+        console.log(reverse); //resultado: [5, 4, 3, 2, 1]
+
+    O método 'sort()' serve para ordenar um vetor de forma CRESCENTE, já o método 'reverse()' serve para reverter as posições do vetor.
+    Portanto para deixar um vetor com os valores na ordem DECRESCENTE, é preciso primeiro deixar ele ordenado na ordem CRESCENTE e depois usar o
+    método 'reverse()' para deixá-lo na ordem DECRESCENTE.
+
+    Agora será mostrado um exemplo de ordenação de vetor que dentro de si, tem objetos.
+    EXEMPLO:
+        let negociacoes = [
+            new Negociacao(new Date(), 7, 200),
+            new Negociacao(new Date(), 1, 300),
+            new Negociacao(new Date(), 8, 100)
+        ]
+                                            //subtração
+        negociacoes.sort((a, b) => a.quantidade -  b.quantidade);
+        negociacoes.forEach(negociacao => console.log(negociacao)); //para mostrar o vetor ordenado
+
+    A função passada para sort recebe dois parâmetros que representam pares de elementos, isso porque toda comparação envolve um par de elementos.
+    A regra é a seguinte: com o critério selecionado, se o valor retornado for 0 não há alteração a ser feita, se o valor retornado for positivo,
+    'b' deve vir antes de 'a', se o valor for negativo, 'a' deve vir antes de 'b'.
+
+
 -------------------- BOAS PRÁTICAS --------------------
 
 
