@@ -173,6 +173,9 @@
     desejarmos (armadilha).
 
 
+-   Todo navegador possui um banco de dados interno, chamado indexedDB. Ele pode ser usado para manter pequenos dados salvos localmente no navegador.
+
+
 
 
 

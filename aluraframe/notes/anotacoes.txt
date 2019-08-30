@@ -399,3 +399,20 @@
         this.inputQuantidade = $('#quantidade');
         this.inputValor = $('#valor');
     }
+
+
+
+-------------------- BANCO DE DADOS - IndexedDB --------------------
+
+-   Para pedir/requisitar uma conexão com o banco, é necessário usar o método open(), o primeiro parâmetro é o nome do banco de dados que será criado.
+    E o segundo parâmetro...
+    EXEMPLO:
+        var openRequest = window.indexedDB.open('aluraframe', 1);
+
+
+-   Para conectar com o banco de dados, três propriedades devem ser usadas, 'onupgradeneeded', 'onsuccess', 'onerror'.
+    A propriedade 'onupgradeneeded' é usada para criar ou atualizar o banco de dados, esta propriedade deve receber como valor uma função.
+    A propriedade 'onsuccess' também recebe uma função, que será sempre executada quando houver uma conexão com o banco de dados.
+    E a 'onerror' também recebe uma função que é executa quando algum erro ocorrer na conexão.
+
+

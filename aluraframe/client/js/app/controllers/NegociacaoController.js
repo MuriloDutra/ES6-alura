@@ -6,7 +6,6 @@ class NegociacaoController{
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
-        this._ordenaView = $('#ordenaView');
         this._ordemAtual = '';
 
         //Negociações | Utilizando o Bind para ligar a View ao Proxy
@@ -48,7 +47,7 @@ class NegociacaoController{
 
 
     ordena(coluna){
-        this._ordenaView.innerHTML = `Lista ordenada por <span class="alert-success">${coluna.toUpperCase()}</span>`;
+        document.getElementById('ordenaView').innerHTML = `Lista ordenada por <span class="alert-success">${coluna.toUpperCase()}</span>`;
 
         if(this._ordemAtual == coluna)
             this._listaNegociacoes.inverteOrdem();
