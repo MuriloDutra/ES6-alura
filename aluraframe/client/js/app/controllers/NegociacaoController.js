@@ -19,11 +19,13 @@ class NegociacaoController{
     
     adiciona(event){
         event.preventDefault();
-        let negociacao = this._criaNegociaco();
-        
-        this._listaNegociacoes.adiciona(negociacao);
-        this._mensagem.texto = 'Negociação adicionada com sucesso.';
-        this._limpaFormulario();
+        try{
+            this._listaNegociacoes.adiciona(this._criaNegociaco());
+            this._mensagem.texto = 'Negociação adicionada com sucesso.';
+            this._limpaFormulario();
+        }catch(erro){
+            this._mensagem.texto = erro;
+        }
     }
 
 
@@ -46,7 +48,7 @@ class NegociacaoController{
 
 
     ordena(coluna){
-        this._ordenaView.innerHTML = `Lista ordenada por <span class="alert-danger">${coluna.toUpperCase()}</span>`;
+        this._ordenaView.innerHTML = `Lista ordenada por <span class="alert-success">${coluna.toUpperCase()}</span>`;
 
         if(this._ordemAtual == coluna)
             this._listaNegociacoes.inverteOrdem();
