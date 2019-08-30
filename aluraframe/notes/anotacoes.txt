@@ -405,14 +405,42 @@
 -------------------- BANCO DE DADOS - IndexedDB --------------------
 
 -   Para pedir/requisitar uma conexão com o banco, é necessário usar o método open(), o primeiro parâmetro é o nome do banco de dados que será criado.
-    E o segundo parâmetro...
+    E o segundo parâmetro é a versão do banco de dados, no caso será '1' pois é a primeira versão.
     EXEMPLO:
         var openRequest = window.indexedDB.open('aluraframe', 1);
 
+    OBS: Supondo que no futuro seja preciso adicionar uma nova tabela nesse banco de dados, é necessário mudar a versão do banco de dados,
+    settando a versão para '2' ou outra versão que esteja. Caso isso não seja feito, as alterações aplicadas na propriedade 'onupgradeneeded'
+    não serão aplicadas, é PRECISO alterar a versão.
 
 -   Para conectar com o banco de dados, três propriedades devem ser usadas, 'onupgradeneeded', 'onsuccess', 'onerror'.
     A propriedade 'onupgradeneeded' é usada para criar ou atualizar o banco de dados, esta propriedade deve receber como valor uma função.
     A propriedade 'onsuccess' também recebe uma função, que será sempre executada quando houver uma conexão com o banco de dados.
     E a 'onerror' também recebe uma função que é executa quando algum erro ocorrer na conexão.
+    EXEMPLO:
+        openRequest.onupgradeneeded = e => {
+            console.log('Cria ou altera um banco de dados já existente.');
+        };
+
+        openRequest.onsuccess = e => {
+            console.log('Conexão obtida com sucesso.');
+            connection = e.target.result; //recuperando a conexão que foi bem sucedida 
+        };
+
+        openRequest.onerror = e => {
+            console.log(e.target.error); //acessando erro
+        };
 
 
+-   Para criar uma tabela, ou o nome correto seria Object Store, basta recuperar a conexão em 'onupgradeneeded' e usar o método para criar
+    o  Object Store/tabela, este método aceita como parâmetro o nome da tabela/Object Store.
+    EXEMPLO:
+        openRequest.onupgradeneeded = e => {
+            console.log('Cria ou altera um banco de dados já existente.');
+            
+            //recuperando a conexão e criando a tabela.
+            let myConnection = e.target.result;
+            myConnection.createObjectStore('negociacoes');
+        };
+
+    OBS: não esqueça que é necessário mudar a versão do banco de dados, para a alteração nele ser aplicada.

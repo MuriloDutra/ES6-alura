@@ -6,14 +6,18 @@
 </head>
 <body>
     <script>
-        var openRequest = window.indexedDB.open('aluraframe', 1);
+        let connection;
+        var openRequest = window.indexedDB.open('aluraframe', 2);
 
         openRequest.onupgradeneeded = e => {
             console.log('Cria ou altera um banco de dados já existente.');
+            let myConnection = e.target.result;
+            myConnection.createObjectStore('negociacoes');
         };
 
         openRequest.onsuccess = e => {
             console.log('Conexão obtida com sucesso.');
+            connection = e.target.result; //recuperando a conexão que foi bem sucedida
         };
 
         openRequest.onerror = e => {
