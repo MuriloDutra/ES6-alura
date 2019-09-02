@@ -177,8 +177,6 @@
 
 
 
-
-
     ===================== Padrão de projeto FACTORY =====================
 
     Ele é utilizado quando precisamos facilitar a criação de um objeto.

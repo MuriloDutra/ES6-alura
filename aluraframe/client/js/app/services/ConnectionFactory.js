@@ -29,7 +29,7 @@ var ConnectionFactory = (
                     };
 
                     openRequest.onsuccess = event => {
-                        if(!connection){ //Para não devolver conexões diferentes
+                        if(!connection){ //Verificando se a conexão existe
                             connection = event.target.result;
                             close = connection.close.bind(connection); //Obtendo o método original com seu THIS original
                             connection.close = function(){ //sobrescrevendo o método close()
