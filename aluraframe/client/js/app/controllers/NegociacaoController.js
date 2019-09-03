@@ -14,6 +14,11 @@ class NegociacaoController{
         //Mensagens | Utilizando o Bind para ligar a View ao Proxy
         this._mensagem = new Bind(new Mensagem(), new MensagemView($("#mensagemView")), 'texto');
 
+        this._init();
+    }
+
+
+    _init(){
         ConnectionFactory //Recuperando as negociações do IndexedDB
             .getConnection()
                 .then(connection => new NegociacaoDao(connection))
@@ -25,6 +30,8 @@ class NegociacaoController{
                     console.log(erro);
                     this._mensagem.texto = erro;
                 });
+
+        setInterval(() =>  this.importaNegociacoes(), 5000);
     }
 
     
