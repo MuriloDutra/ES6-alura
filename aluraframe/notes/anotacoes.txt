@@ -365,6 +365,30 @@
     'b' deve vir antes de 'a', se o valor for negativo, 'a' deve vir antes de 'b'.
 
 
+-   Em javascript há uma função, que todo array possui, chamada 'indexOf', ela percorre o array todo procurando um valor que tenha sido recebido
+    por parâmetro.
+    EXEMPLO:
+        let posicao = negociacoes.indexOf(negociacao));
+
+    No exemplo acima, 'indexOf' íra percorrer o array 'negociacoes', procurando por uma posição que contenha o mesmo valor que 'negociacao',
+    que foi o valor passado como parâmetro.
+
+    Caso ela ache uma posição com o mesmo valor, a função irá retornar a posição em que o valor está. Caso contrário o valor '-1' será retornado,
+    isso significa que 'indexOf' não achou nenhum valor equivalente no vetor.
+
+
+-   Outra função útil para verificar se certo valor existe em um array, é a função 'some()'.
+    Ela percorre o array à procura de um valor, fornecido através de uma comparação,tal comparação é recebida por parâmetro.
+    EXEMPLO:
+        let numeros = [1,2,3,4,5];
+        numeros.some(numero => numero == 1); //RESULTADO: TRUE, pois há 1 em 'numeros'
+
+        numeros.some(numero => numero == 6) //RESULTADO: FALSE, pois NÃO há 6 em 'numeros'
+
+    OBS: assim que 'some()' retornar TRUE, o processo de percorrer o array é interrompido. Ou seja, se o valor que você procura
+    esta na segunda posição do vetor e o mesmo possui cinco posições, o processo de 'some()' irá parar na segunda posição,
+    não irá até o fim do vetor.
+
 -------------------- BOAS PRÁTICAS --------------------
 
 

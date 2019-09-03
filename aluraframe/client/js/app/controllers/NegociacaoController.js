@@ -64,6 +64,10 @@ class NegociacaoController{
         let service = new NegociacaoService();
 
         service.obterNegociacoes()
+        .then(negociacoes => negociacoes.filter(negociacao =>                               //acessando uma Negociação das que foram IMPORTADAS
+                ! this._listaNegociacoes                                                    //acesso listaNegociacoes
+                .negociacoes.some(negociacaoExistente =>                                    //acessa uma Negociação de listaNegociacoes
+                        JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente))))//compara Negociação que foi IMPORTADA COM a Negociação de listaNegociacoes
         .then(negociacoes => {
             negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
             this._mensagem.texto = 'Negociações dos períodos importadas com sucesso.';

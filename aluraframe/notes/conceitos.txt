@@ -191,3 +191,35 @@
     O padrão de projeto Factory ocorre quando temos uma classe que nos ajuda a criar um objeto complexo, ou seja, ela esconde de nós os 
     detalhes de criação desse objeto. É por isso que uma classe Factory possui apenas um método. Faz sentido, porque se tivéssemos que chamar
     mais de um para criar um objeto a responsabilidade de sua criação cairia em nosso colo.
+
+
+
+    ===================== COMPARANDO OBJETOS EM JAVASCRIPT =====================
+    Suponha que tenha sido criado dois objetos do mesmo tipo, em nosso exemplo ambos os objetos serão do tipo Pessoa.
+    EXEMPLO:
+        let pessoa01 = new Pessoa('Emma Watson');
+        let pessoa02 = new Pessoa('Emma Watson');
+
+    Se compararmos ambos os objetos, o resultado será false, mas qual o motivo? A primeira vista eles parecem ser iguais, pois as pessoas tem o mesmo nome.
+    Quando criamos um objeto em javascript, ele salva este objeto em uma posição da memória do computador.
+    EXEMPLO:
+        let pessoa01 = new Pessoa('Emma Watson'); //FOI SALVO NA POSIÇÃO 'memoria01'
+        let pessoa02 = new Pessoa('Emma Watson'); //FOI SALVO NA POSIÇÃO 'memoria02'
+
+    Quando comparamos 'pessoa01' com 'pessoa02' o resultado é 'false' pois o javascript ao comparar os dois, não leva em conta o conteúdo dos objetos,
+    mas sim em que posição da memória eles estão salvos. Portanto obviamente o resultado é 'false' pois 'pessoa01' está salvo em 'memoria01'
+    e 'pessoa02' está salvo em 'memoria02'.
+
+    Para a comparação entre os dois dar 'true', algum dos objetos terá que mudar sua referência na memória.
+    EXEMPLO:
+        pessoa01 = pessoa02; //'pessoa01' está recebendo 'pessoa02'
+
+    A partir de agora a referência de memória de 'pessoa01' NÃO é mais 'memoria01', passa a ser 'memoria02', a mesma referência de 'pessoa02'.
+    Por fim, a comparação de ambos resultará em 'true'.
+
+    OBS: se os objetos foremdo tipo literais/primitivos,como 'string', 'number' e 'boolean', o javascript compara o VALOR em si do objeto.
+    EXEMPLO:
+        let mensagem01 = 'oi';
+        let mensagem02 = 'oi';
+
+    No caso acima, se houver uma comparação entre 'mensagem01' e 'mensagem02' o resultado será 'true'.
