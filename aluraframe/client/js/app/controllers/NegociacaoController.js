@@ -13,6 +13,18 @@ class NegociacaoController{
 
         //Mensagens | Utilizando o Bind para ligar a View ao Proxy
         this._mensagem = new Bind(new Mensagem(), new MensagemView($("#mensagemView")), 'texto');
+
+        ConnectionFactory //Recuperando as negociações do IndexedDB
+            .getConnection()
+                .then(connection => new NegociacaoDao(connection))
+                .then(dao => dao.listaTodos())
+                .then(negociacoes => 
+                    negociacoes.forEach(negociacao => 
+                        this._listaNegociacoes.adiciona(negociacao)))
+                .catch(erro => {
+                    console.log(erro);
+                    this._mensagem.texto = erro;
+                });
     }
 
     
@@ -35,8 +47,16 @@ class NegociacaoController{
 
 
     apaga(){
-        this._listaNegociacoes.esvazia();
-        this._mensagem.texto = "Lista de negociações apagadas com sucesso.";
+        ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDao(connection))
+            .then(dao => dao.apagaTodos())
+            .then(mensagem => {
+                this._listaNegociacoes.esvazia();
+                this._mensagem.texto = mensagem;
+            })
+            .catch(erro => this._mensagem.texto = erro);
+        
     }
 
 
