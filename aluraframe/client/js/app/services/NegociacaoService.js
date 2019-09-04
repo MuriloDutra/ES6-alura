@@ -57,9 +57,9 @@ class NegociacaoService{
         return  this.obterNegociacoes()
                 .then(negociacoes => 
                     negociacoes.filter(negociacao =>                                                //acessando uma Negociação das que foram IMPORTADAS
-                        !listaAtual                                                                 //acesso listaAtual
+                        ! listaAtual                                                                //acesso listaAtual, o retorno precisa ser 'false' para que as Negociações que foram iguais, não serem incluídas no novo vetor feito por 'filter()'
                         .some(negociacaoExistente =>                                                //acessa uma Negociação de listaAtual
-                                JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente))))//compara Negociação que foi IMPORTADA COM a Negociação de listaAtual
+                                negociacao.isEquals(negociacaoExistente))))//compara Negociação que foi IMPORTADA COM a Negociação de listaAtual
                 .catch(erro => {
                     console.log(erro);
                     throw new Error(erro);
