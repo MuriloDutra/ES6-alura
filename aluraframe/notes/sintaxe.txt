@@ -1,0 +1,98 @@
+-------------------- SINTAXE --------------------
+
+
+
+-   Existe uma segunda maneira de declarar váriaveis. Invés de usarmos a palavra
+    'var', podemos usar 'let'. Com esse tipo de declaração, a váriavel só estará
+    disponível no bloco em que foi declarada.
+
+    EXEMPLO:
+        for(let i = 0; i <= 100; i++){
+                console.log(i);
+        }
+
+    alert(i);
+
+    Como a váriavel 'i' foi declarada usando 'let' dentro do 'for', caso eu
+    tente acessar 'i' no alert(), um erro será mostrado, pois 'i' só está
+    acessível dentro de seu bloco, que é o 'for'.
+
+
+-   O "Spread operator" transforma os elemento de um array, em parâmetros.
+    Por exemplo, se tivermos o seguinte array: [1,2,3,4,5], e queira passar ele
+    como parâmetro para um função, basta chamar a função e passá-lo.
+
+    EXEMPLO:
+        let array = [1,2,3,4,5];
+        exemplo(...array);
+
+        function exemplo(num1, num2){
+            //código
+        }
+
+    No exemplo acima, a função exemplo() requisita dois parâmetros, mas o vetor
+    possui CINCO posições, o que irá ocorrer? O Spread Operator passará apenas
+    a quantidade requisitada de parâmetros, no caso são DUAS posições do vetor.
+    As outras TRÊS posições serão ignoradas.
+
+    Resumindo, o Spread Operator, "...", serve para você quebrar um vetor ou string
+    e transformar cada posição deles em parâmetros.
+
+
+-   No ES6 há uma nova maneira de declarar FUNÇÕES, tradicionalmente, nós usamos
+    a palavra "function" para declarar uma função, com o ES6 existe o conceito de
+    ARROWS FUNCTIONS, podemos declarar uma função apenas usando "=>" uma flecha.
+
+    EXEMPLO:
+        //FUNÇÃO TRADICIONAL
+        function soma(num1, num2){
+            return num1 + num2;
+        }
+
+        //FUNÇÃO "ARROW"
+        (num1, num2) => num1 + num2;
+
+    Se a ARROW FUNCTION tiver apenas uma linha, nãoé necessário por "{ }" e 
+    também não é necessário colocar o comando de "return".
+
+    Outra vantagem das ARROWS FUNCTIONS é que o contexto delas, ou seja, o 'this' é léxico. 
+    Isso significa que o contexto/this em que ela foi criada, será mantido até o final de sua execução.
+    Com o método tradicional, usando a palavra 'function' o 'this' é dinâmico, ele muda atráves do escopo em que estiver sendo executado.
+
+
+-   Para herdar uma classe externa para a sua, é muito simples. Basta adicionar a palavra "extends" e o nome da classe.
+    E caso o construtor precise receber algum parâmetro, este valor deve ser passado para o construtor da classe "pai",
+    a que está sendo herdada.
+
+    EXEMPLO:
+        class NegociacoesView extends View{
+            
+            constructor(elemento){
+                super(elemento);
+            }
+        }
+
+    O comando "super" é usado para acessar a classe "pai", a que está sendo herdada. No exemplo acima,
+    estou acessando a classe "pai" e passando para o seu construtor o parâmetro "elemento".
+
+    Mas caso não queira usar o comando 'super()', passando verbalmente o parâmetro do construtor da classe "filha" para o construtor da classe "pai", 
+    basta apagar o construtor da "filha". O javascript já considera que o elemento passado para o construtor "filho", deve ser redirecionado para a classe "pai".
+    Por isso a classe "filha" pode não possuir construtor, que mesmo assim, o parâmetro será redirecionado para a classe "pai".
+
+
+-   Caso sua classe precise herdar de outra, é importante se atentar aos parâmetros e construtor. Como já sabemos, 
+    caso você não declare um construtor na classe 'filha', todos os parâmetros irão direto para a classe 'pai'. 
+    Mas supondo que sua classe 'filha' receba dois parâmetros diferentes, um será usado na classe 'pai' e outro na 'filha', como proceder? Declaro construtor?
+    Sim, um construtor deve ser declarado na classe, ele será usado para receber o parâmetro da classe 'filha' e passar o outro parâmetro para o 'pai'.
+
+    EXEMPLO:
+        class Secretaria extends Funcionario {
+
+            constructor(nome, funcionario) {
+                super(nome); // cuidado, tem que ser a primeira instrução!
+                this._funcionario = funcionario;
+            }
+        }
+
+    No exemplo acima, o parâmetro 'nome' está sendo redirecionado para a classe 'pai', que no exemplo é Funcionario, usando o comando 'super()'.
+    E o parâmetro 'funcionario', está sendo usado na própria classe 'filha', que no caso é Secretaria.

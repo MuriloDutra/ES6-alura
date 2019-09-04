@@ -1,0 +1,34 @@
+-------------------- BOAS PRÁTICAS --------------------
+
+
+
+-   Uma boa prática a ser adotada é: quando você for usar um método que será
+    executado várias vezes, declare as variáveis imutávei fora do método, ou seja, 
+    em seu construtor.
+    EXEMPLO:
+
+    adiciona(event){
+        event.preventDefault();
+
+        console.log(this.inputData.value);
+        console.log(this.inputQuantidade.value);
+        console.log(this.inputValor.value);
+    }
+    
+    Este método será acionado várias vezes, repare que ele está usando atributos,
+    que já foram declarados: this.inputData, this.inputQuantidade e 
+    this.inputValor.
+
+    Estes atributos e seus valores foram definidos no construtor, pois eles 
+    são imutáveis, sempre que eu for os usar, terão o mesmo valor, portanto
+    não faz sentido declará-los várias vezes. Segue código do construtor com
+    os atributos.
+    EXEMPLO:
+
+    constructor(){
+        let $ = document.querySelector.bind(document);
+
+        this.inputData = $('#data');
+        this.inputQuantidade = $('#quantidade');
+        this.inputValor = $('#valor');
+    }

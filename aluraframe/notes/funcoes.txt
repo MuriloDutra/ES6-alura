@@ -1,0 +1,295 @@
+    -------------------- FUNÇÕES/MÉTODOS --------------------
+
+
+
+-   Para congelar um Objeto e deixá-lo inalterável, mesmo chamando diretamente
+    seus atributos. Basta chama a função Object.freeze() e passar o objeto como
+    parâmetro.
+
+    EXEMPLO:
+        constructor(data, quantidade, valor){
+            this._data = data;
+            this._quantidade = quantidade;
+            this._valor = valor;
+
+            Object.freeze(this);
+        }
+
+    É recomendável fazer isso no CONSTRUTOR, pois quando a classe for
+    instânciada, o objeto que for retornado, não será possível mexer 
+    em seus atributos. Assim protegendo o objeto.
+
+
+-   A classe Date(), possui o método setDate(), para ser inserido um valor
+    de data. Basta passar o dia que deseja.
+    
+    EXEMPLO:
+        var data = new Date();
+        data.setDate(27);
+
+
+-   O método replace(), serve para você substituir uma string por outra.
+    Ela recebe dois parâmetros, a string que será substituída e o nova valor
+    a ser posto no lugar.
+
+    EXEMPLO:
+        var msg = "PHP é uma ótima linguagem";
+        var resultado = msg.replace("PHP", "Javascript");
+        //Valor retornado: "JavaScript é uma ótima linguagem"
+
+    Mas supondo que na string  acima a palavra 'PHP' estivessa presente
+    mais vezes, no exemplo acima, "PHP" só seria substituído na primeira
+    vez, no restante da string iria continuar "PHP".
+
+    Para contornar este problema, é necessário usar uma expressão regular.
+
+    EXEMPLO:
+        exemplo = "Estudando JavaScript! JavaScript é uma linguagem dinâmica";
+        resultado = exemplo.replace(/JavaScript/g, "PHP");
+        // Valor retornado: “Estudando PHP! PHP é uma linguagem dinâmica”
+
+
+-   Método split() serve para você separar pedaços de uma string em um array.
+    A função irá separar a string considerando um parâmetro seu. E a cada vez
+    que ele encontrar esse parâmetro, quebrará a string, transformando esse
+    pedaço em uma posição do array.
+
+    EXEMPLO:
+        let data = '2019-09-19';
+        let resultado = data.split('-');
+        // Valor retornado: ['2019','09','19'];
+
+
+-   A função map() serve para percorrer um vetor, ao final do percurso, a função
+    retorna um novo vetor. Nesse meio tempo, você pode modificar o vetor,
+    a modificação será feita no NOVO vetor, o antigo se manterá o mesmo.
+
+        EXEMPLO:
+            let vetor = [10, 20, 30];
+                                            //item é cada posição do vetor  
+            let novoVetor = vetor.map(function(item){
+                return item + 10;
+            });
+
+    No exemplo acima, estou fazendo cada posição receber mais 10. Logo o NOVO vetor
+    terá valores valores modificados do que o primeiro.
+
+
+-   A função concat() serve para concatenar duas strings. E ela cria uma nova
+    string como resultado das duas anteriores.
+
+        EXEMPLO: 
+            return [].concat(this._negociacoes);
+
+    No caso acima, está sendo criado um novo array, que está vazio e será
+    retornado. Este vetor que será retornado, está sendo concatenado com
+    o vetor "negociacoes", portanto o resultado final será igual ao vetor
+    "this._negociacoes".
+
+    O método concat() também possui um segundo parâmetro opcional,
+    que é um valor que deseja atribuir ao novo vetor que está sendo criado,
+    é possível passar quantos parâmetros queira.
+
+
+-   A função join() serve para juntar os elementos de um array e 
+    transformá-los em uma string. Portanto, caso a primeira posição seja 
+    "Mariana" e a segunda "Ruy Barbosa", caso queira juntar ambas,
+    basta usar a função join().
+
+        EXEMPLO:
+            let nome = ["Mariana", "Ruy Barbosa"];
+            let nomeCompleto = nome.join(" ");
+
+            //Resultado - nomeCompleto: "Mariana Ruy Barbosa"
+
+    Entre os parenteses você pode passar um seperador, ou seja, o que terá
+    entre duas posições do vetor. No exemplo acima foi um espaço em branco.
+    Mas vamos ver outro exemplo.
+
+        EXEMPLO:
+            var fruits = ["Banana", "Orange", "Apple", "Mango"];
+            var energy = fruits.join(" and ");
+
+            //Resultado - energy: "Banana and Orange and Apple and Mango"
+
+
+-   A função reduce() serve para reduzir um vetor de números em apenas
+    um único número, você pode somar os números presente ou os subtrair, faça
+    a operação que lhe conver.
+
+    EXEMPLO:
+        let number = [175, 50, 25];
+        let numero = number.reduce((total, n) => total + n, 0.0);
+        
+        console.log(numero);//o resultado será 250
+
+    A função reduce recebe dois parâmetros: 
+    uma função e um valor inicial. Na função interna ao reduce,o primeiro 
+    parâmetro é o valor da última iteração, que neste caso é o total. O segundo
+    parâmetro é o valor da iteração atual, neste caso, o novo número que queremos somar.
+
+    No exemplo acima, todos os elementos do array foram somados,
+    resultando em 250. Outro detalhe do segundo parâmetro, que é o valor
+    de inicialização, se o valor passado for 0.0, não é necessário passá-lo então.
+    Por default a função considera como ZERO o valor de inicialização.
+
+    Segue abaixo outro exemplo usando o reduce.
+    EXEMPLO:
+        let arrayPrincipal = [
+            ['laranja', 'maçã'],
+            ['vermelho', 'verde'],
+            ['sapato', 'blusa']
+        ]; 
+
+        arrayPrincipal.reduce((novoArray, arraySimples) => novoArray.concat(arraySimples), []);
+
+    'arrayPrincipal' possui dentro de si, outros três arrays, desajamos tornar esses três arrays em apenas um.
+    Para isso, usamos a função 'reduce()' que recebe uma função como parâmetro. 
+    
+    Esta função recebe dois parâmetros, o primeiro é 'novoArray' que será obviamente o novo vetor, feito a partir dos outros três que 
+    estão dentro de 'arrayPrincipal'. O segundo é uma posição de 'arrayPrincipal', no caso a primeira, que contém o primeiro array.
+
+    Dentro desta função, estou usando o método concat() para concatenar o valor atual do 'arrayPrincipal' que é 'arraySimples', 
+    e estou concatenando com 'novoArray', que será retornado. 
+
+    OBS: o segundo parâmetro da função 'reduce()' é o valor inicial que o 'novoArray' terá, no caso é '[]', mesma coisa que nada.
+    
+
+-   Em javascript podemos nos deparar com problemas bem específicos, por exemplo,
+    querer executar uma função em outro contexto que não seja no "this" atual.
+    Para fazer isso, usaremos a classe Reflect, própria do javascript, e usaremos seu método apply().
+    IMPORTANTE: você deve receber o outro contexto, o outro "this" de alguma maneira, no exemplo abaixo será por parâmetro.
+
+    EXEMPLO:                
+        constructor(contexto, funcao){
+            this._contexto = contexto;
+            this._funcao = funcao;
+        }
+
+    O parâmetro'contexto' é o outro "this", no qual a função que deseja será executada. E 'funcao' é o método que será executado.
+
+    EXEMPLO:
+        Reflect.apply(this._funcao, this._contexto,[this]);
+
+    O primeiro parâmetro é a função que queremos executar.
+    O segundo parâmetro é o NOVO contexto, o NOVO "this" no qual a função será executada.
+    E o terceiro parâmetro é um array do que "this._funcao" receberá como parâmetro, que no caso é "this", 
+    que é diferente de "this._contexto".
+
+    OUTRO EXEMPLO:
+        Reflect.apply(this._soma, this._contexto,[1,2,3]);
+
+
+-   Para transformar a resposta de um servidor em um objeto JSON, utilize a função 'parse' do objeto JSON.
+    EXEMPLO:
+        JSON.parse(xhr.responseText);
+
+    O parâmetro que deve ser passado, é o conteúdo que deseja transformar em objeto JSON.
+
+
+-   A classe JSON possui o método stringify(), que transforma um objeto javascript em um string.
+    EXEMPLO:
+        let negociacao = new Negociacao(new Date(), 1, 100);
+        let objetoParaString = JSON.stringify(negociacao);
+
+
+-   Para criar uma 'Promise', siga o exemplo.
+    EXEMPLO:
+        var teste = true;
+
+        let novaPromise = new Promise((resolve, reject) => {    
+            if(teste)
+                resolve("Deu certo, pois 'teste' é true, portanto retorne esta mensagem.");
+            else
+                reject("Deu errado, pois 'teste' é false, portanto retorne esta mensagem como erro.")
+        });
+
+        return novaPromise;
+
+    Primeiro é necessário instanciar com a classe 'Promise', em seu constructor é preciso passar uma função que recebe dois parâmetros.
+    Ambos parâmetros são funções, a função 'resolve()' deve ser chamada quando o fluxo de dados der certo e esses dados devem ser passados para ela.
+    E quando o fluxo der algum erro, tal erro deve ser passado para 'reject()'.
+
+    Caso eu desejasse usar essa promisse que criei, seri desta forma.
+    EXEMPLO:
+        novaPromise
+        .then(resposta => console.log(resposta)) //aqui seria mostrado a mensagem passada para 'resolve()'
+        .catch(erro => console.log(erro));       //aqui seria mostrado a mensagem de ERRO passada para 'reject()'
+
+
+-   Na classe 'Promise' existe o método 'all()', que serve para executar várias promises em uma determinada ordem.
+    EXEMPLO:
+        romise.all([
+            service.promise01(), 
+            service.promise02(), 
+            service.promise03()
+        ])
+        .then(negociacoes => console.log(negociacoes))
+        .catch(erro => this._mensagem.texto = erro);
+
+    As promises devem ser passadas como parâmetro dentro de um vetor, a ordem de execução das 'promises' começa a partir da primeira posição do vetor.
+    Ou seja, a promise que está na posição 0 do vetor será a primeira a ser executada e assim por diante.
+
+    A vantagem de usar o 'Promise.all()' é que as respostas de todas as promises serão retornadas no mesmo 'then()', assim como algum erro,
+    qualquer erro que aconteça nas promises será retornado no mesmo 'catch'.
+
+
+-   Todo array em javascript possui métodos para ordenação, dois deles são 'sort()' e 'reverse()'.
+    EXEMPLO:
+        let lista = [5,3,4,2,1];
+        lista.sort();
+        console.log(lista); //resultado: [1, 2, 3, 4, 5]
+
+        lista.reverse();
+        console.log(reverse); //resultado: [5, 4, 3, 2, 1]
+
+    O método 'sort()' serve para ordenar um vetor de forma CRESCENTE, já o método 'reverse()' serve para reverter as posições do vetor.
+    Portanto para deixar um vetor com os valores na ordem DECRESCENTE, é preciso primeiro deixar ele ordenado na ordem CRESCENTE e depois usar o
+    método 'reverse()' para deixá-lo na ordem DECRESCENTE.
+
+    Com o método 'sort()', para ter certeza que ele irá ordenar de maneira correta, pode-se passar uma função anônima como parâmetro.
+    EXEMPLO;
+        let lista = [10,1, 5, 9, 8, 12, 15];
+        lista.sort((a, b) => a - b); // resultao: [1, 5, 8, 9, 10, 12, 15]
+
+    Repare que o resultado dessa conta é sempre 0 se forem iguais, -1 se 'A' é menor e 1 se 'B' é menor. Exatamente o que precisamos.
+
+    Agora será mostrado um exemplo de ordenação de vetor que dentro de si, tem objetos.
+    EXEMPLO:
+        let negociacoes = [
+            new Negociacao(new Date(), 7, 200),
+            new Negociacao(new Date(), 1, 300),
+            new Negociacao(new Date(), 8, 100)
+        ]
+                                            //subtração
+        negociacoes.sort((a, b) => a.quantidade -  b.quantidade);
+        negociacoes.forEach(negociacao => console.log(negociacao)); //para mostrar o vetor ordenado
+
+    A função passada para sort recebe dois parâmetros que representam pares de elementos, isso porque toda comparação envolve um par de elementos.
+    A regra é a seguinte: com o critério selecionado, se o valor retornado for 0 não há alteração a ser feita, se o valor retornado for positivo,
+    'b' deve vir antes de 'a', se o valor for negativo, 'a' deve vir antes de 'b'.
+
+
+-   Em javascript há uma função, que todo array possui, chamada 'indexOf', ela percorre o array todo procurando um valor que tenha sido recebido
+    por parâmetro.
+    EXEMPLO:
+        let posicao = negociacoes.indexOf(negociacao));
+
+    No exemplo acima, 'indexOf' íra percorrer o array 'negociacoes', procurando por uma posição que contenha o mesmo valor que 'negociacao',
+    que foi o valor passado como parâmetro.
+
+    Caso ela ache uma posição com o mesmo valor, a função irá retornar a posição em que o valor está. Caso contrário o valor '-1' será retornado,
+    isso significa que 'indexOf' não achou nenhum valor equivalente no vetor.
+
+
+-   Outra função útil para verificar se certo valor existe em um array, é a função 'some()'.
+    Ela percorre o array à procura de um valor, fornecido através de uma comparação,tal comparação é recebida por parâmetro.
+    EXEMPLO:
+        let numeros = [1,2,3,4,5];
+        numeros.some(numero => numero == 1); //RESULTADO: TRUE, pois há 1 em 'numeros'
+
+        numeros.some(numero => numero == 6) //RESULTADO: FALSE, pois NÃO há 6 em 'numeros'
+
+    OBS: assim que 'some()' retornar TRUE, o processo de percorrer o array é interrompido. Ou seja, se o valor que você procura
+    esta na segunda posição do vetor e o mesmo possui cinco posições, o processo de 'some()' irá parar na segunda posição,
+    não irá até o fim do vetor.

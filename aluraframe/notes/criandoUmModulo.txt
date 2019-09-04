@@ -1,0 +1,47 @@
+-------------------- CRIANDO UM MÓDULO --------------------
+
+-   Um módulo é uma maneira de encapsular um código para que não seja alterado. Por exemplo para proteger atributos de uma classe.
+    Veja abaixo como criar tal módulo.
+    EXEMPLO:
+        var módulo = (
+
+            function(){
+                return class ExemploDeClasse{
+                    
+                    metodoExemplo01(){
+
+                    }
+                }
+            }
+        ) ();
+
+    O questionamento de 'Ók, protegi meu código, mas como irei acessar meu métodos?'.
+    Fácil, basta retornar o que deseja usar, pois o módulo não é nada mais que uma função. No exemplo acima estou retornando uma classe.
+    Mas vejamos um exemplo se fosse preciso retornar vários métodos.
+    EXEMPLO:
+        var formatadorDeMoedas = (function() {
+            let simboloMoeda = 'R$ ';
+            let modulo = {};
+
+            modulo.numeroParaReal = numero => {
+                return simboloMoeda + numero.toFixed(2).replace('.', ',');
+            }
+
+            modulo.realParaNumero = texto => {
+                return texto.replace(simboloMoeda, '').replace(',', '.');
+            }
+
+            return modulo;
+        })();
+
+    No exemplo acima, desejo retornar duas funções, mas como sabemos todo método possui apenas um 'return'.
+    Portanto criei a variável 'modulo', que recebe as duas funções e retorno ele, assim dando acesso aos dois métodos para quem chamar 'formatadorDeMoedas'.
+
+    Agora demosntrarei como usar este módulo.
+    EXEMPLO:
+        let real = 'R$ 100,20';
+        let realConvertidoEmNumero = formatadorDeMoedas.realParaNumero(real);
+        alert(realConvertidoEmNumero);
+
+        let numero = 200.15;
+        let numeroConvertidoEmReal = formatadorDeMoedas.numeroParaReal(numero);
