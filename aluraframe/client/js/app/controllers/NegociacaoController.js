@@ -14,22 +14,17 @@ class NegociacaoController{
         //Mensagens | Utilizando o Bind para ligar a View ao Proxy
         this._mensagem = new Bind(new Mensagem(), new MensagemView($("#mensagemView")), 'texto');
 
+        this._service = new NegociacaoService();
+
         this._init();
     }
 
 
     _init(){
-        ConnectionFactory //Recuperando as negociações do IndexedDB
-            .getConnection()
-                .then(connection => new NegociacaoDao(connection))
-                .then(dao => dao.listaTodos())
-                .then(negociacoes => 
-                    negociacoes.forEach(negociacao => 
-                        this._listaNegociacoes.adiciona(negociacao)))
-                .catch(erro => {
-                    console.log(erro);
-                    this._mensagem.texto = erro;
-                });
+        this._service
+        .lista()
+        .then(negociacoes => negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao)))
+        .catch(erro => this._mensagem.texto = erro);
 
         setInterval(() =>  this.importaNegociacoes(), 5000);
     }
@@ -37,48 +32,40 @@ class NegociacaoController{
     
     adiciona(event){
         event.preventDefault(); //Para desabilitar o reload da página
-        ConnectionFactory.getConnection()
-            .then(connection => {
-                let negociacao = this._criaNegociaco();
-                new NegociacaoDao(connection)
-                    .adiciona(negociacao)
-                    .then(() => {
-                        this._listaNegociacoes.adiciona(negociacao);
-                        this._mensagem.texto = 'Negociação adicionada com sucesso.';
-                        this._limpaFormulario();
-                    });
-                    
+
+        let negociacao = this._criaNegociaco();
+        this._service
+            .cadastra(negociacao)
+            .then(mensagem => {
+                this._listaNegociacoes.adiciona(negociacao);
+                this._mensagem.texto = mensagem;
+                this._limpaFormulario();
             })
-            .catch(erro => this._mensagem.texto = erro);
+            .catch(erro => {
+                console.log(erro);
+                this._mensagem.texto = erro
+            });
     }
 
 
     apaga(){
-        ConnectionFactory
-            .getConnection()
-            .then(connection => new NegociacaoDao(connection))
-            .then(dao => dao.apagaTodos())
-            .then(mensagem => {
-                this._listaNegociacoes.esvazia();
-                this._mensagem.texto = mensagem;
-            })
-            .catch(erro => this._mensagem.texto = erro);
-        
+        this._service
+        .apaga()
+        .then(mensagem => {
+            this._listaNegociacoes.esvazia();
+            this._mensagem.texto = mensagem;
+        })
+        .catch(erro => this._mensagem.texto = erro);
     }
 
 
     importaNegociacoes(){
-        let service = new NegociacaoService();
-
-        service.obterNegociacoes()
-        .then(negociacoes => negociacoes.filter(negociacao =>                               //acessando uma Negociação das que foram IMPORTADAS
-                ! this._listaNegociacoes                                                    //acesso listaNegociacoes
-                .negociacoes.some(negociacaoExistente =>                                    //acessa uma Negociação de listaNegociacoes
-                        JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente))))//compara Negociação que foi IMPORTADA COM a Negociação de listaNegociacoes
-        .then(negociacoes => {
-            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-            this._mensagem.texto = 'Negociações dos períodos importadas com sucesso.';
-        })
+        this._service
+        .importa(this._listaNegociacoes.negociacoes)
+        .then(negociacoes => negociacoes.forEach(negociacao => {
+            this._listaNegociacoes.adiciona(negociacao);
+            this._mensagem.texto = 'Negociações do período importadas.';
+        }))
         .catch(erro => this._mensagem.texto = erro);
     }
 
