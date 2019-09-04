@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function a(falhar) {
+
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if(falhar)
+                        reject('PROMISE A FALHOU');
+                    else {
+                        console.log('PROMISE A RESOLVIDA');
+                        resolve('DADO A');
+                    }
+                }, 2000);
+            });
+        }
+
+        function b(falhar) {
+
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if(falhar) 
+                        reject('PROMISE B FALHOU');
+                    else{
+                        console.log('PROMISE B RESOLVIDA')
+                        resolve('DADO B');
+                    }
+                }, 1000);
+            });
+        }
+
+        function c(falhar) {
+
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if(falhar)
+                        reject('PROMISE C FALHOU');
+                    else{
+
+                        console.log('PROMISE C RESOLVIDA')
+                        resolve('DADO C');
+                    }
+                }, 500);
+            });
+        }
+
+        a(true)
+            .then(dado => {
+                console.log(dado);
+
+                // O RETORNO DA PROMISE B ESTARÁ DISPONÍVEL NO PRÓXIMO THEN
+                return b(); 
+            })
+            .then(dado => {
+                console.log(dado);
+
+                /* FORÇANDO A REJEIÇÃO DA PROMISE. TEM QUE IR DIRETO PARA O CATCH. 
+                SE NÃO TIVESSE REJEITADO, O RETORNO DE C ESTARIA DISPONÍVEL NO PRÓXIMO THEN*/
+                return c();  
+            })
+            .then(dado => {
+                console.log(dado);
+            })
+            .catch(erro => console.log(erro));
+
+
+            /*Promise
+            .all([a(), b(), c()])
+            .then(arrayComResultadoDasPromises => console.log(arrayComResultadoDasPromises))
+            .catch(erroDeAlgumaDasPromises => console.log(erroDeAlgumaDasPromises));*/
+    </script>
+</body>
+</html>
