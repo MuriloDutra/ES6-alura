@@ -1,7 +1,14 @@
-class NegociacaoController{
+'use strict';
 
-    constructor(){
-        let $ = document.querySelector.bind(document);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var NegociacaoController = function () {
+    function NegociacaoController() {
+        _classCallCheck(this, NegociacaoController);
+
+        var $ = document.querySelector.bind(document);
 
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
@@ -14,90 +21,101 @@ class NegociacaoController{
         //Mensagens | Utilizando o Bind para ligar a View ao Proxy
         this._mensagem = new Bind(new Mensagem(), new MensagemView($("#mensagemView")), 'texto');
 
-        this._service = new NegociacaoService();
+        this._service = new xNegociacaoService();
 
         this._init();
     }
 
+    _createClass(NegociacaoController, [{
+        key: '_init',
+        value: function _init() {
+            var _this = this;
 
-    _init(){
-        this._service
-        .lista()
-        .then(negociacoes => negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao)))
-        .catch(erro => this._mensagem.texto = erro);
-
-        setInterval(() =>  this.importaNegociacoes(), 5000);
-    }
-
-    
-    adiciona(event){
-        event.preventDefault(); //Para desabilitar o reload da página
-
-        let negociacao = this._criaNegociaco();
-        this._service
-            .cadastra(negociacao)
-            .then(mensagem => {
-                this._listaNegociacoes.adiciona(negociacao);
-                this._mensagem.texto = mensagem;
-                this._limpaFormulario();
-            })
-            .catch(erro => {
-                console.log(erro);
-                this._mensagem.texto = erro
+            this._service.lista().then(function (negociacoes) {
+                return negociacoes.forEach(function (negociacao) {
+                    return _this._listaNegociacoes.adiciona(negociacao);
+                });
+            }).catch(function (erro) {
+                return _this._mensagem.texto = erro;
             });
-    }
 
+            setInterval(function () {
+                return _this.importaNegociacoes();
+            }, 5000);
+        }
+    }, {
+        key: 'adiciona',
+        value: function adiciona(event) {
+            var _this2 = this;
 
-    apaga(){
-        this._service
-        .apaga()
-        .then(mensagem => {
-            this._listaNegociacoes.esvazia();
-            this._mensagem.texto = mensagem;
-        })
-        .catch(erro => this._mensagem.texto = erro);
-    }
+            event.preventDefault(); //Para desabilitar o reload da página
 
+            var negociacao = this._criaNegociaco();
+            this._service.cadastra(negociacao).then(function (mensagem) {
+                _this2._listaNegociacoes.adiciona(negociacao);
+                _this2._mensagem.texto = mensagem;
+                _this2._limpaFormulario();
+            }).catch(function (erro) {
+                console.log(erro);
+                _this2._mensagem.texto = erro;
+            });
+        }
+    }, {
+        key: 'apaga',
+        value: function apaga() {
+            var _this3 = this;
 
-    importaNegociacoes(){
-        this._service
-        .importa(this._listaNegociacoes.negociacoes)
-        .then(negociacoes => negociacoes.forEach(negociacao => {
-            this._listaNegociacoes.adiciona(negociacao);
-            this._mensagem.texto = 'Negociações do período importadas.';
-        }))
-        .catch(erro => this._mensagem.texto = erro);
-    }
+            this._service.apaga().then(function (mensagem) {
+                _this3._listaNegociacoes.esvazia();
+                _this3._mensagem.texto = mensagem;
+            }).catch(function (erro) {
+                return _this3._mensagem.texto = erro;
+            });
+        }
+    }, {
+        key: 'importaNegociacoes',
+        value: function importaNegociacoes() {
+            var _this4 = this;
 
+            this._service.importa(this._listaNegociacoes.negociacoes).then(function (negociacoes) {
+                return negociacoes.forEach(function (negociacao) {
+                    _this4._listaNegociacoes.adiciona(negociacao);
+                    _this4._mensagem.texto = 'Negociações do período importadas.';
+                });
+            }).catch(function (erro) {
+                return _this4._mensagem.texto = erro;
+            });
+        }
+    }, {
+        key: 'ordena',
+        value: function ordena(coluna) {
+            document.getElementById('ordenaView').innerHTML = 'Lista ordenada por <span class="alert-success">' + coluna.toUpperCase() + '</span>';
 
-    ordena(coluna){
-        document.getElementById('ordenaView').innerHTML = `Lista ordenada por <span class="alert-success">${coluna.toUpperCase()}</span>`;
+            if (this._ordemAtual == coluna) this._listaNegociacoes.inverteOrdem();else this._listaNegociacoes.ordena(function (a, b) {
+                return a[coluna] - b[coluna];
+            });
 
-        if(this._ordemAtual == coluna)
-            this._listaNegociacoes.inverteOrdem();
-        else
-            this._listaNegociacoes.ordena((a, b) => a[coluna] - b[coluna]);
+            this._ordemAtual = coluna;
+        }
+    }, {
+        key: '_criaNegociaco',
+        value: function _criaNegociaco() {
 
-        this._ordemAtual = coluna;
-    }
+            var data = DateHelper.textoParaData(this._inputData.value);
 
-    _criaNegociaco(){
-        
-        let data = DateHelper.textoParaData(this._inputData.value);
-        
-        return new Negociacao(
-            data,
-            parseInt(this._inputQuantidade.value),
-            parseFloat(this._inputValor.value)
-        );
-    }
+            return new Negociacao(data, parseInt(this._inputQuantidade.value), parseFloat(this._inputValor.value));
+        }
+    }, {
+        key: '_limpaFormulario',
+        value: function _limpaFormulario() {
+            this._inputData.value = "";
+            this._inputQuantidade.value = 1;
+            this._inputValor.value = 0.0;
 
+            this._inputData.focus();
+        }
+    }]);
 
-    _limpaFormulario(){
-        this._inputData.value = "";
-        this._inputQuantidade.value = 1;
-        this._inputValor.value = 0.0;
-
-        this._inputData.focus();
-    }
-}
+    return NegociacaoController;
+}();
+//# sourceMappingURL=NegociacaoController.js.map
