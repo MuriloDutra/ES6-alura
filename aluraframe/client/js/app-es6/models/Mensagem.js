@@ -1,4 +1,4 @@
-class Mensagem{
+export class Mensagem{
     
                     //caso não seja passado nenhum parâmetro para o construtor, o valor padrão da  variável "texto" será: " ".
     constructor(texto=" "){

@@ -1,4 +1,6 @@
-class MensagemView extends View{
+import { View } from './View';
+
+export class MensagemView extends View{
 
     /*  -- Construtor omitido
         O javascript já considera que o elemento passado por construtor, 

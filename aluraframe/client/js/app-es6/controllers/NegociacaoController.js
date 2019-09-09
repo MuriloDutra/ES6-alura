@@ -1,3 +1,12 @@
+import { ListaNegociacoes } from '../models/ListaNegociacoes';
+import { Mensagem } from '../models/Mensagem';
+import { Negociacao } from '../models/Negociacao';
+import { NegociacoesView } from '../views/NegociacoesView';
+import { MensagemView } from '../views/MensagemView';
+import { NegociacaoService } from '../services/NegociacaoService';
+import { DateHelper } from '../helpers/DateHelper';
+import { Bind } from '../helpers/Bind';
+
 class NegociacaoController{
 
     constructor(){
@@ -14,7 +23,7 @@ class NegociacaoController{
         //Mensagens | Utilizando o Bind para ligar a View ao Proxy
         this._mensagem = new Bind(new Mensagem(), new MensagemView($("#mensagemView")), 'texto');
 
-        this._service = new xNegociacaoService();
+        this._service = new NegociacaoService();
 
         this._init();
     }
@@ -100,4 +109,10 @@ class NegociacaoController{
 
         this._inputData.focus();
     }
+}
+
+let negociacaoController = new NegociacaoController();
+
+export function currentInstance(){ //EXPORTANDO UMA INSTÂNCIA DE negociacaoController
+    return negociacaoController;
 }

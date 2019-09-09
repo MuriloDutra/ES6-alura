@@ -1,20 +1,27 @@
-class NegociacoesView extends View{
+import { View } from './View';
+import { DateHelper } from '../helpers/DateHelper';
+import { currentInstance } from '../controllers/NegociacaoController';
 
-    /*  -- Construtor omitido
-        O javascript já considera que o elemento passado por construtor, 
-        deve ser redirecionado para a classe "pai", por isso esta classe não possui construtor.
-        A classe pai no caso é 'View'
-    */
+export class NegociacoesView extends View{
+
+    constructor(elemento){
+        super(elemento);
+        elemento.addEventListener('click', function(event){
+
+            if(event.target.nodeName == 'TH')
+                currentInstance().ordena(event.target.textContent.toLowerCase())
+        });
+    }
 
     template(model){
         return `
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th onclick="negociacaoController.ordena('data')">DATA</th>
-                    <th onclick="negociacaoController.ordena('quantidade')">QUANTIDADE</th>
-                    <th onclick="negociacaoController.ordena('valor')">VALOR</th>
-                    <th onclick="negociacaoController.ordena('volume')">VOLUME</th>
+                    <th>DATA</th>
+                    <th>QUANTIDADE</th>
+                    <th>VALOR</th>
+                    <th>VOLUME</th>
                 </tr>
             </thead>
             
