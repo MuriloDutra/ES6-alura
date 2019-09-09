@@ -1,0 +1,39 @@
+-   O babel é um compilador Javascript que auxilia na compatibilidade de códigos Javascript para qualquer
+    browser ou outras plataformas, ou seja, isso evita que seu código dê erro de compatibilidade com o cliente,
+    mesmo que este tenha um navegador desatualizado, por exemplo.
+
+-   Para começar a usar o Babel, é necessário executar o comando "npm init" no terminal, dentro da pasta que desejar.
+    Um arquivo package.json deve ser criado.
+
+-   Para instalar o Babel, é simples, execute pelo terminal na pasta desejada "npm install babel-cli@6.10.1 --save-dev".
+    A parte do comando que está '@6.10.1'.
+
+-   Antes de começarmos a usar o Babel, é necessário instalar mais uma coisa, um preset. Um preset é um suporte para o Babel conseguir interpretar o ES6,
+    assim dessa forma, será possível transformar códigos em ES6 para ES5. Para instalar esse preset, execute o comando no terminal 
+    "npm install babel-preset-es2015@6.9.0 --save-dev".
+
+-   Crie um arquivo chamado '.babelrc', este arquivo será responsável por configurar o Babel. Após a criação,
+    Defina qual preset deseja usar, no caso será o que baixamos anteriormente.
+    EXEMPLO:
+        {
+            "presets": ["es2015"]
+        }
+
+-   Agora para poder transpilar, abra o arquivo 'package.json' e dentro da chave 'scripts', adicione o seguinte código.
+    EXEMPLO:
+        "build": "babel js/app-es6 -d js/app --source-maps"
+
+    'js/app-es6' é onde os arquivos escritos em ES6 estão e 'js/app' é a pasta onde os arquivos transpilados serão armazenados.
+    E '--source-maps' é para quando um erro ocorrer na aplicação, ele dar como referência o arquivo escrito em ES6 e não em outra versão.
+
+-   Para a transpilação acontecer, dê o comando no terminal "npm run build".
+    Entre na pasta 'js/app' e todos os arquivos transpilados estarão lá. Repare na diferença de sintaxe de ES5 para ES6.
+
+-   Cada alteração que for feita no arquivo ES6, para ela ser aplicada no arquivo ES5, o comando "npm run build" terá que ser executado.
+    Para evitar este processo tedioso, adicione em 'package.json', dentro da chave 'scripts' o seguinte código.
+    EXEMPLO:
+      "watch": "babel js/app-es6 -d js/app --source-maps --watch"
+
+    Repare que ele é muito parecido com o código de 'build', porém no final possui '--watch'.
+    Agora abra o terminal e execute "npm run watch", agora toda alteração feita em qualquer arquivo ES6, o watch,
+    automaticamente, irá transpilar o arquivo para ES5, no mesmo destino/pasta.
